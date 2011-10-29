@@ -2,9 +2,10 @@
 ROOT="git clone git@github.com:phaus/sam.git"
 sudo apt-get -y install git-core
 GIT=`which git`
+PLAY=`which play`
 cd /usr/local
 echo "Checkout SAM"
-sudo $GIT $ROOT
+sudo $GIT clone $ROOT
 echo "Starting SAM"
-/usr/local/play/play start /usr/local/sam
+$PLAY start /usr/local/sam
 
