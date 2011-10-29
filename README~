@@ -1,5 +1,0 @@
-# SAM - System Administration and Management
-
-## Installation
-
-wget https://raw.github.com/phaus/sam/master/scripts/setup.sh && bash setup.sh
