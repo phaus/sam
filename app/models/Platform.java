@@ -61,12 +61,10 @@ public class Platform extends Model {
     
     public void setDistribution(Distribution distribution){
         this.distribution = distribution;
-        this.save();
     }
     
     public void setHost(Host host){
         this.hosts.add(host);
-        this.save();
     }
     
     @Override
