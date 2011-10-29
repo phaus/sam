@@ -1,10 +1,10 @@
 #!/bin/bash
-ROOT="https://concordia.consolving.de/svn/sandbox/philipp/playframework/sam/"
-sudo apt-get -y install subversion
-SVN=`which svn`
+ROOT="git clone git@github.com:phaus/sam.git"
+sudo apt-get -y install git
+GIT=`which git`
 cd /usr/local
 echo "Checkout SAM"
-sudo $SVN $ROOT
+sudo $GIT $ROOT
 echo "Starting SAM"
 /usr/local/play/play start /usr/local/sam
 
