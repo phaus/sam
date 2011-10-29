@@ -45,9 +45,6 @@ public class Host extends Model implements Comparable<Host> {
     public String getCacheKey(){
         return "HOST_"+user+"_"+getIp(ip);
     }
-    public Distribution getDistribution(){
-        return this.platform.distribution;
-    }
     
     public void setPlatform(Platform platform){
         Logger.debug("setting Platform to: "+platform);
@@ -71,7 +68,7 @@ public class Host extends Model implements Comparable<Host> {
     
     @Override
     public String toString(){
-        String out = user+"@"+hostname+"."+dnsdomainname;
+        String out = hostname+"."+dnsdomainname;
         return out;
     }
 

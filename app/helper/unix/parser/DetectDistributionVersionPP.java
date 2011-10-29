@@ -46,6 +46,9 @@ public class DetectDistributionVersionPP implements ProcessParser {
         if("Ubuntu".equals(name)){
             command = "cat /etc/lsb-release";
         }
+        if("Darwin".equals(name)){
+            command = "uname -r";
+        }
         return command;
     }
     

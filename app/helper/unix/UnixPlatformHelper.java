@@ -165,12 +165,8 @@ public class UnixPlatformHelper implements PlatformHelper {
     print the operating system
      */
     public Platform detectPlatform() {
-        DetectPlatformPP dp = new DetectPlatformPP();
-        String command = "uname -v && "
-                + "uname -m && "
-                + "uname -o && "
-                + "uname -r";
-        runCommand(command, dp);
+        DetectPlatformPP dp = new DetectPlatformPP(this.distribution);
+        runCommand(dp.getCommand(), dp);
         this.platform = dp.getPlatform();
         this.platform.distribution = this.distribution;
         this.host.platform = this.platform;

@@ -27,7 +27,7 @@ public class Hosts extends Controller {
         }
         PlatformHelper helper = UnixPlatformHelper.getInstance();
         helper.setHost(Host.findOrCreateByIp("root", ip));        
-        Set<Host> hosts = Application.HOSTS;
+        Set<Host> hosts = Application.getHosts();
         Host host = helper.detectHost();
         Distribution distribution = helper.dectectDistribution();
         Platform platform = helper.detectPlatform();
@@ -37,12 +37,11 @@ public class Hosts extends Controller {
     
     public static void show(long hostId){
         Host host = Host.findById(hostId);
-        PlatformHelper helper = UnixPlatformHelper.getInstance();
-        helper.setHost(host);        
-        Set<Host> hosts = Application.HOSTS;
-        Distribution distribution = helper.dectectDistribution();
-        Platform platform = helper.detectPlatform();
-        List<AppPackage> packages = helper.listPackages();
+        Set<Host> hosts = Application.getHosts();
+        Platform platform = host.platform;
+        Distribution distribution = platform.distribution;
+        
+        List<AppPackage> packages = distribution.packages;
         render(hosts, host, distribution, platform, packages);         
     }
     

@@ -52,12 +52,17 @@ public class Distribution extends Model {
     
     public void addPackage(AppPackage appPackage){
         this.packages.add(appPackage);
+        appPackage.distribution = this;
     }
     
     public void addPackages(List<AppPackage> packages){
         this.packages.addAll(packages);
     }
-    
+
+    public List<AppPackage>getPackages(){
+        return AppPackage.find("distribution = ?", this).fetch();
+    }
+
     @Override
     public String toString(){
         return this.name+" "+this.version;

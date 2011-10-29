@@ -8,9 +8,11 @@ GET    /Packages/showUpdates/{hostId}           Packages.showUpdates
 GET    /Packages/showDistUpgrade/{hostId}       Packages.showDistUpgrade
 POST   /Packages/search                         Packages.search
 
+GET    /Distributions                           Distributions.index
+GET    /Packages                                AppPackages.index
 POST   /Hosts/delete                            Hosts.delete
 GET    /Hosts/show/{hostId}                     Hosts.show
-GET     /Hosts/scan/{ip}                        Hosts.scan
+GET    /Hosts/scan/{ip}                         Hosts.scan
 POST   /Hosts/scan                              Hosts.scan
 # Ignore favicon requests
 GET     /favicon.ico                            404

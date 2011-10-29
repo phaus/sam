@@ -8,6 +8,7 @@ import helper.PlatformParameters;
 import helper.ProcessParser;
 import java.io.BufferedReader;
 import java.io.IOException;
+import models.Distribution;
 import models.Platform;
 import play.Logger;
 
@@ -18,8 +19,9 @@ import play.Logger;
 public class DetectPlatformPP implements ProcessParser {
 
     private Platform platform;
-
-    public DetectPlatformPP() {
+    private Distribution distribution;
+    public DetectPlatformPP(Distribution distribution) {
+        this.distribution = distribution;
         this.platform = new Platform();
     }
 
@@ -68,7 +70,19 @@ public class DetectPlatformPP implements ProcessParser {
                 break;
         }
     }
-
+    public String getCommand(){
+        if("Darwin".equals(this.distribution.name)){
+        return "uname -v && "
+                + "uname -m && "
+                + "uname -s && "
+                + "uname -r";
+        }
+        return "uname -v && "
+                + "uname -m && "
+                + "uname -o && "
+                + "uname -r";
+    }
+    
     public Platform getPlatform() {
         this.platform = Platform.findOrCreateByParameter(PlatformParameters.createFromPlatform(this.platform));
         return this.platform;

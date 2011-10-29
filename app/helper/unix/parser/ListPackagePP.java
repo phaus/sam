@@ -56,10 +56,11 @@ public class ListPackagePP implements ProcessParser {
         AppPackage p = AppPackage.findOrCreateByNameAndVersionAndDistribution(parts[1].trim(), parts[2].trim(), this.distribution);
         
         //Logger.info(showArray(parts));
-        if (p.created && parts.length > 2) {
+        if (p.id == null && parts.length > 2) {
             p.status = parts[0].trim();
             p.description = concatParts(parts, 3, " ");
             p.distribution = this.distribution;
+            this.distribution.addPackage(p);
             p.save();
         }
         return p;

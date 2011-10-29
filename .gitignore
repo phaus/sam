@@ -1,0 +1,15 @@
+*/.DS_Store
+
+**/.DS_Store
+nbproject
+
+**/data/attachments/*
+
+tmp/*
+
+db/*
+
+modules/*
+
+logs/*
+**/*~

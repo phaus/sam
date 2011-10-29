@@ -6,8 +6,6 @@ package models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
-import play.Logger;
 import play.cache.Cache;
 import play.db.jpa.Model;
 
@@ -25,9 +23,6 @@ public class AppPackage extends Model {
     @ManyToOne
     public Distribution distribution;
     
-    @Transient 
-    public boolean created = false;
-    
     public static AppPackage findOrCreateByNameAndVersionAndDistribution(String name, String version, Distribution distribution){
         String key = "PACKAGE_"+name+"_"+version+"_"+distribution.id;
         AppPackage ap = Cache.get(key, AppPackage.class);
@@ -39,7 +34,6 @@ public class AppPackage extends Model {
             ap.name = name;
             ap.version = version;
             Cache.set(key, ap, "1d");
-            ap.created = true;
         }
         return ap;
     }

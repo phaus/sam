@@ -5,6 +5,7 @@
     <tbody>
         <tr>
             <td><a href="@{Hosts.show(host.id)}">show Host</a> | </td>
+            <td><a href="@{Hosts.scan(host.ip)}">rescan Host</a> | </td>
             <td><a href="@{Packages.showUpdates(host.id)}">show Updates</a> | </td>
             <td><a href="@{Packages.showDistUpgrade(host.id)}">show Upgrade</a> | </td>
             <td>#{form @Packages.search()}

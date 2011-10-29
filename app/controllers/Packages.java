@@ -21,7 +21,7 @@ public class Packages extends Controller {
         Logger.info("loading updates on "+host);
         UnixPlatformHelper helper = UnixPlatformHelper.getInstance();
         helper.setHost(host);
-        Set<Host> hosts = Application.HOSTS;
+        Set<Host> hosts = Application.getHosts();
         List<String> updates = helper.updatedPackages();
         render(host, hosts, updates);
     }
@@ -31,7 +31,7 @@ public class Packages extends Controller {
         Logger.info("loading upgrade on "+host);
         UnixPlatformHelper helper = UnixPlatformHelper.getInstance();
         helper.setHost(host);
-        Set<Host> hosts = Application.HOSTS;
+        Set<Host> hosts = Application.getHosts();
         List<String> updates = helper.upgradeDistribution();
         render(host, hosts, updates);
     }
@@ -41,7 +41,7 @@ public class Packages extends Controller {
         Logger.info("search for "+query+" on "+host);  
         UnixPlatformHelper helper = UnixPlatformHelper.getInstance();
         helper.setHost(host);
-        Set<Host> hosts = Application.HOSTS;
+        Set<Host> hosts = Application.getHosts();
         List<String>results = helper.searchPackage(query);
         render(host, hosts, results);
     }
