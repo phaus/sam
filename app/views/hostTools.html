@@ -1,0 +1,20 @@
+#{extends 'main.html' /}
+<h2>${host}</h2>
+<hr />
+<table>
+    <tbody>
+        <tr>
+            <td>There are <i>${packages.size()}</i> Packages installed. | </td>
+            <td><a href="@{Packages.showUpdates(host.id)}">show Updates</a> | </td>
+            <td><a href="@{Packages.showDistUpgrade(host.id)}">show Upgrade</a> | </td>
+            <td>#{form @Packages.search()}
+            <input type="hidden" value="${host.id}" id="hostId" name="hostId"/>
+            <input style="width:120px" name="query" id="query"/>
+            <input type="submit" value="search" />
+            #{/form}</td>
+            
+        </tr>
+    </tbody>
+</table>
+<hr />
+#{doLayout /}

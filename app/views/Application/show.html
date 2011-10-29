@@ -1,0 +1,29 @@
+#{extends 'main.html' /}
+#{set title:'show' /}
+<h2>${host} / ${platform}</h2>
+<h3>${distribution}</h3>
+<hr />
+There are <i>${packages.size()}</i> Packages installed. | 
+<a href="@{Packages.showUpdates(host.id)}">show Updates</a> | 
+<a href="@{Packages.showDistUpgrade(host.id)}">show Upgrade</a> |
+            #{form @Packages.search()}
+            <input type="hidden" value="${host.id}" id="hostId" name="hostId"/>
+            <input style="width:120px" name="query" id="query"/>
+            <input type="submit" value="search" />
+            #{/form}
+<hr />
+<table>
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th>Name</th>
+        <th>Version</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    #{list packages, as:'ap'}
+    #{appPackageRow p:ap /}
+    #{/list}
+    </tbody>
+</table>

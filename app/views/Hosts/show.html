@@ -1,0 +1,17 @@
+#{extends 'hostTools.html' /}
+#{set title:'show Host' /}
+<table>
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th>Name</th>
+        <th>Version</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    #{list packages, as:'ap'}
+    #{appPackageRow p:ap /}
+    #{/list}
+    </tbody>
+</table>
