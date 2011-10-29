@@ -1,5 +1,5 @@
 #!/bin/bash
-ROOT="git clone git@github.com:phaus/sam.git"
+ROOT="https://github.com/phaus/sam.git"
 sudo apt-get -y install git-core
 GIT=`which git`
 PLAY=`which play`
