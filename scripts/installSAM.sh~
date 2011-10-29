@@ -17,7 +17,7 @@ echo "  USE empty Passphrase for this key     "
 echo "========================================"
 ssh-keygen -q -t rsa -b 2048 -f ~/.ssh/id_rsa
 cat  ~/.ssh/id_rsa.pub >>  ~/.ssh/authorized_keys
-wget https://raw.github.com/phaus/sam/master/scripts/setupSSH.sh && bash setupSSH.sh
+wget https://raw.github.com/phaus/sam/master/scripts/setupSSH.sh && sudo bash setupSSH.sh
 echo "========================================"
 echo " Starting SAM			      "
 echo "========================================"
