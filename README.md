@@ -6,7 +6,7 @@ wget https://raw.github.com/phaus/sam/master/scripts/setup.sh && bash setup.sh
 
 ## Web-UI
 
-http://<host>:9000
+http://hostname:9000
 
 ## Support
 
