@@ -22,16 +22,19 @@
             <input style="width:120px" name="ip" id="ip"/>
             <input type="submit" value="scan" />
             #{/form}
+            #{if hosts.size() == 0}
+            <p><a href="@{Hosts.scan('127.0.0.1')}">scan SAM Host</a></p>
+            #{/if}
             <table>
                 <tbody>
-                #{list hosts, as:'host'}
-                <tr>
-                    <td>#{form @Hosts.delete()}<input type="hidden" value="${host.id}" id="hostId" name="hostId"/><input type="submit" value="X" />#{/form}</td>
-                    <td><a href="@{Hosts.show(host.id)}">${host}</a></td>
-                </tr>
-                #{/list}   
+                    #{list hosts, as:'host'}
+                    <tr>
+                        <td>#{form @Hosts.delete()}<input type="hidden" value="${host.id}" id="hostId" name="hostId"/><input type="submit" value="X" />#{/form}</td>
+                        <td><a href="@{Hosts.show(host.id)}">${host}</a></td>
+                    </tr>
+                    #{/list}   
                 </tbody>
-                </table>
+            </table>
         </fieldset>
         <fieldset style="float:left;  width:80%;overflow: auto"> 
             <legend>Info</legend>

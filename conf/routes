@@ -10,6 +10,7 @@ POST   /Packages/search                         Packages.search
 
 POST   /Hosts/delete                            Hosts.delete
 GET    /Hosts/show/{hostId}                     Hosts.show
+GET     /Hosts/scan/{ip}                        Hosts.scan
 POST   /Hosts/scan                              Hosts.scan
 # Ignore favicon requests
 GET     /favicon.ico                            404
