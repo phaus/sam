@@ -16,19 +16,19 @@ Ubuntu and Debian is currently supported.
 ## Features
 
 * Detects Platform/Distributions
- ** "Darwin",
- ** "Debian",
- ** "Fedora",
- ** "Gentoo",
- ** "Ubuntu",
- ** "Mandrake",
- ** "Red Hat",
- ** "Solaris/Sparc",
- ** "Slackware",
- ** "Sun JDS",
- ** "Novell SUSE",
- ** "UnitedLinux",
- ** "Yellow dog"
+ * "Darwin",
+ * "Debian",
+ * "Fedora",
+ * "Gentoo",
+ * "Ubuntu",
+ * "Mandrake",
+ * "Red Hat",
+ * "Solaris/Sparc",
+ * "Slackware",
+ * "Sun JDS",
+ * "Novell SUSE",
+ * "UnitedLinux",
+ * "Yellow dog"
 
 * Collects Package Data for Ubuntu/Debian
 
