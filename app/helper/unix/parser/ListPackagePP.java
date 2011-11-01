@@ -5,13 +5,16 @@
 package helper.unix.parser;
 
 import helper.ProcessParser;
+import helper.parser.tools.ArcLinuxPackageParser;
+import helper.parser.tools.DebianPackageParser;
+import helper.parser.tools.PackageParser;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import models.AppPackage;
 import models.Distribution;
+import models.Host;
 import play.Logger;
 
 /**
@@ -19,66 +22,61 @@ import play.Logger;
  * @author philipp
  */
 public class ListPackagePP implements ProcessParser {
+
     private List<AppPackage> packages = new LinkedList<AppPackage>();
     private Distribution distribution;
+    private Host host;
+    private boolean on = false;
+    public String startToken = "+++-";
+
     public void parse(BufferedReader bufferedreader) {
         try {
-            boolean on = false;
+            PackageParser parser = getPackageParser();
             String line;
-            while ((line = bufferedreader.readLine()) != null && !line.startsWith("Warning:")) {
+            AppPackage p;
+            while ((line = bufferedreader.readLine()) != null) {
                 if (on) {
-                    packages.add(parsePartsToPackage(cleanArray(line.split(" "))));
+                    p = parser.parsePartsToPackage(line);
+                    packages.add(p);
+                    p.update();
                 }
-                if (line.startsWith("+++-")) {
+                if (line.startsWith(startToken)) {
                     on = true;
                 }
             }
+            host.updatePackages(packages);
+            this.distribution = parser.getDistribution();
         } catch (IOException ex) {
             Logger.error(ex.getLocalizedMessage());
         }
     }
 
-    private String[] cleanArray(String parts[]) {
-        List<String> out = new ArrayList<String>();
-        for (String part : parts) {
-            if (!part.trim().isEmpty()) {
-                out.add(part);
-            }
+    private PackageParser getPackageParser() {
+        if ("Arch Linux".equals(this.distribution.name)) {
+            on = true;
+            return new ArcLinuxPackageParser(distribution);
         }
-        parts = new String[out.size()];
-        for (int i = 0; i < out.size(); i++) {
-            parts[i] = (String) out.get(i);
-        }
-        return parts;
+        startToken = "+++-";
+        return new DebianPackageParser(distribution);
     }
 
-    private AppPackage parsePartsToPackage(String parts[]) {
-        AppPackage p = AppPackage.findOrCreateByNameAndVersionAndDistribution(parts[1].trim(), parts[2].trim(), this.distribution);
-        
-        //Logger.info(showArray(parts));
-        if (p.id == null && parts.length > 2) {
-            p.status = parts[0].trim();
-            p.description = concatParts(parts, 3, " ");
-            p.distribution = this.distribution;
-            this.distribution.addPackage(p);
-            p.save();
+    public String getCommand() {
+        if ("Arch Linux".equals(this.distribution.name)) {
+            return "pacman -Q";
         }
-        return p;
+        return "dpkg -l";
     }
 
-    private String concatParts(String parts[], int fromIndex, String token) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = fromIndex; i < parts.length; i++) {
-            sb.append(parts[i]);
-            sb.append(token);
-        }
-        return sb.toString().trim();
-    }
-
-    public void setDistribution(Distribution distribution){
+    public void setDistribution(Distribution distribution) {
+        Logger.info("distribution is: "+distribution);
         this.distribution = distribution;
     }
     
+    public void setHost(Host host){
+        Logger.info("Host is: "+host);
+        this.host = host;
+    }
+
     public List<AppPackage> getPackages() {
         return this.packages;
     }

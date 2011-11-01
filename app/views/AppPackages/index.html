@@ -1,17 +1,19 @@
 #{extends 'main.html' /}
-#{set title:'SAM' /}
+#{set title:'Package Listing' /}
+<hr />
+There are <i>${packages.size()}</i> Packages installed.
+<hr />
 <table>
     <thead>
-    <tr>
-        <th>Status</th>
-        <th>Name</th>
-        <th>Version</th>
-        <th>Description</th>
-    </tr>
+        <tr>
+            <th>Name</th>
+            <th>Version</th>
+            <th>Description</th>
+        </tr>
     </thead>
     <tbody>
-    #{list packages, as:'ap'}
-    #{appPackageRow p:ap /}
-    #{/list}
+        #{list packages, as:'ap'}
+        #{appPackageRow p:ap /}
+        #{/list}
     </tbody>
 </table>

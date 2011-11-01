@@ -30,5 +30,5 @@ public interface PlatformHelper {
    // TODO provisorische Lösung :-)
    public List<String> updatedPackages(); 
    public List<String> upgradeDistribution(); 
-   public List<String> searchPackage(String query);       
+   public List<String> searchPackage(String query);
 }

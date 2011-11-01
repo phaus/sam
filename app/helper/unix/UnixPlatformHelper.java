@@ -9,36 +9,26 @@ import helper.unix.parser.DetectDistributionVersionPP;
 import helper.unix.parser.DetectDistributionNamePP;
 import helper.unix.parser.ListPackagePP;
 import helper.PlatformHelper;
-import helper.ProcessParser;
+import helper.SystemHelper;
 import helper.unix.parser.DetectHostPP;
-import helper.parser.SimpeOutputPP;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import helper.unix.parser.SearchPackagePP;
+import helper.unix.parser.UpdatePackagePP;
+import helper.unix.parser.UpgradePackagePP;
 import java.util.List;
 import models.AppPackage;
 import models.Distribution;
 import models.Host;
 import models.Platform;
-import play.Logger;
 
 /**
  *
  * @author philipp
  */
-public class UnixPlatformHelper implements PlatformHelper {
-
-    private Host host = null;
-    private Platform platform = null;
-    private Distribution distribution = null;
-    private Runtime r;
-    private String sshPrefix;
+public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
 
     //private static UnixPlatformHelper instance = new UnixPlatformHelper();
     private UnixPlatformHelper() {
-        r = Runtime.getRuntime();
+        super();
     }
 
     public static UnixPlatformHelper getInstance() {
@@ -67,60 +57,18 @@ public class UnixPlatformHelper implements PlatformHelper {
     t: Trig-pend
     
      */
-    // TODO needs to add a timeout.
-    private void runCommand(String command, ProcessParser pp) {
-        if (this.host == null) {
-            Logger.error("Host needs to be set!");
-        }
-        try {
-            Logger.info("running: " + this.sshPrefix + " " + command);
-            Process p = r.exec(this.sshPrefix + " " + command);
-            InputStream in = p.getInputStream();
-            BufferedInputStream buf = new BufferedInputStream(in);
-            InputStreamReader inread = new InputStreamReader(buf);
-            BufferedReader bufferedreader = new BufferedReader(inread);
-            pp.parse(bufferedreader);
-            try {
-                if (p.waitFor() != 0) {
-                    Logger.info("exit value = " + p.exitValue());
-                }
-            } catch (InterruptedException e) {
-                System.err.println(e);
-            } finally {
-                // Close the InputStream
-                bufferedreader.close();
-                inread.close();
-                buf.close();
-                in.close();
-            }
-        } catch (IOException ex) {
-            Logger.error(ex.getLocalizedMessage());
-        }
-    }
-
     public List<AppPackage> listPackages() {
         ListPackagePP pp = new ListPackagePP();
-        pp.setDistribution(this.distribution);
-        runCommand("dpkg -l", pp);
+        pp.setDistribution(distribution);
+        pp.setHost(host);
+        runCommand(pp.getCommand(), pp);
         return pp.getPackages();
     }
 
-    private String showArray(String parts[]) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < parts.length; i++) {
-            sb.append(i);
-            sb.append(" => ");
-            sb.append(parts[i]);
-            sb.append(" ");
-        }
-        return sb.toString();
-    }
-
-    public List<String> searchPackage(String query) {   
-        SimpeOutputPP op = new SimpeOutputPP();
-        op.startToken = "Paketlisten werden gelesen...";
-        runCommand("apt-get update && apt-cache search "+query, op);
-        return op.getOutput();    
+    public List<String> searchPackage(String query) {
+        SearchPackagePP sp = new SearchPackagePP(distribution);
+        runCommand(sp.getCommand(query), sp);
+        return sp.getOutput();
     }
 
     public boolean installPackage(String packageName) {
@@ -167,22 +115,10 @@ public class UnixPlatformHelper implements PlatformHelper {
     public Platform detectPlatform() {
         DetectPlatformPP dp = new DetectPlatformPP(this.distribution);
         runCommand(dp.getCommand(), dp);
-        this.platform = dp.getPlatform();
-        this.platform.distribution = this.distribution;
-        this.host.platform = this.platform;
-        return this.platform;
-    }
-
-    public void setHost(Host host) {
-        this.host = host;
-        /**
-         * thx to http://linuxcommando.blogspot.com/2008/10/how-to-disable-ssh-host-key-checking.html.
-         */
-        this.sshPrefix = " ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + host.user + "@" + host.ip;
-    }
-
-    public Host getHost() {
-        return this.host;
+        platform = dp.getPlatform();
+        platform.distribution = distribution;
+        host.platform = platform.update();
+        return platform;
     }
 
     public Distribution dectectDistribution() {
@@ -191,8 +127,8 @@ public class UnixPlatformHelper implements PlatformHelper {
         runCommand(command, ddn);
         DetectDistributionVersionPP ddv = new DetectDistributionVersionPP(ddn.getName());
         runCommand(ddv.getCommand(), ddv);
-        this.distribution = Distribution.findOrCreateByNameAndVersion(ddn.getName(), ddv.getVersion());
-        return this.distribution;
+        distribution = Distribution.findOrCreateByNameAndVersion(ddn.getName(), ddv.getVersion());
+        return distribution;
     }
 
     public Host detectHost() {
@@ -200,21 +136,33 @@ public class UnixPlatformHelper implements PlatformHelper {
         String command = "hostname && "
                 + "dnsdomainname";
         runCommand(command, dh);
-        this.host = dh.getHost();
-        return this.host;
+        host = dh.getHost();
+        return host;
     }
 
     public List<String> updatedPackages() {
-        SimpeOutputPP op = new SimpeOutputPP();
-        op.startToken = "Abhängigkeitsbaum wird aufgebaut...";
-        runCommand("apt-get update && apt-get upgrade -s", op);
-        return op.getOutput();
+        UpdatePackagePP up = new UpdatePackagePP(this.distribution);
+        runCommand(up.getCommand(), up);
+        return up.getOutput();
     }
 
     public List<String> upgradeDistribution() {
-        SimpeOutputPP op = new SimpeOutputPP();
-        op.startToken = "Abhängigkeitsbaum wird aufgebaut...";
-        runCommand("apt-get update && apt-get dist-upgrade -s", op);
-        return op.getOutput();
+        UpgradePackagePP up = new UpgradePackagePP(this.distribution);
+        runCommand(up.getCommand(), up);
+        return up.getOutput();
+    }
+
+    public void setHost(Host host) {
+        this.host = host;
+        platform = host.platform;
+        distribution = host.getDistribution();
+        /**
+         * thx to http://linuxcommando.blogspot.com/2008/10/how-to-disable-ssh-host-key-checking.html.
+         */
+        sshPrefix = " ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + host.user + "@" + host.ip;
+    }
+
+    public Host getHost() {
+        return host;
     }
 }

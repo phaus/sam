@@ -53,15 +53,21 @@ public class Platform extends Model {
             p.machine = paras.machine;
             p.kernelVersion = paras.kernelVersion;
             p.kernelRelease = paras.kernelRelease;
-            p.save();
-            Cache.set(key, p, "1d");
         }
         return p;
     }
     
+    public Platform update(){
+        String key = operationSystem+"_"+machine+" "+kernelVersion+" "+kernelRelease;
+        Cache.set(key, this, "1d");
+        if(this.id == null){
+            return this.save();
+        }
+        return this.merge();
+    }
+    
     public void setDistribution(Distribution distribution){
         this.distribution = distribution;
-        this.save();
     }
     
     public void addHost(Host host){

@@ -19,6 +19,7 @@ public class DetectDistributionNamePP implements ProcessParser {
      * thx to http://www.novell.com/coolsolutions/feature/11251.html.
      */
     private final static String[] DIST_FILES = {
+        "arch-release",
         "bootpd.plist",
         "debian_release", "debian_version",
         "fedora-release",
@@ -34,6 +35,7 @@ public class DetectDistributionNamePP implements ProcessParser {
         "yellowdog-release"
     };
     private final static String[] DIST_NAMES = {
+        "Arch Linux",
         "Darwin",
         "Debian", "Debian",
         "Fedora",

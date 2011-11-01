@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>#{get 'title' /}</title>
+        <title>SAM #{get 'title' /}</title>
         <meta charset="${_response_encoding}">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
         #{get 'moreStyles' /}
@@ -11,49 +11,56 @@
         #{get 'moreScripts' /}
     </head>
     <body>
-    <header>
-        <h1>System Administration and Management</h1>
-        <hr />
+        <header>
+            <h1>System Administration and Management</h1>
+            <hr />
 
-    </header>
+        </header>
 
-    <fieldset style="float:left;width:150px;overflow: auto">
-        <legend><a href="@{Application.index()}">Index</a> Hosts</legend>
-        #{form @Hosts.scan()}
-        <input style="width:100px" name="ip" id="ip"/>
-        <input type="submit" value="scan" />
-        #{/form}
-        #{if hosts.size() == 0}
-        <p><a href="@{Hosts.scan('127.0.0.1')}">scan SAM Host</a></p>
-        #{/if}
-        <table>
-            <tbody>
-                #{list hosts, as:'host'}
-                <tr>
-                    <td>#{form @Hosts.delete()}<input type="hidden" value="${host.id}" name="hostId"/><input type="submit" value="X" />#{/form}</td>
-                    <td><a href="@{Hosts.show(host.id)}">${host}</a></td>
-                </tr>
-                #{/list}
-            </tbody>
-        </table>
-    </fieldset>
-    <fieldset style="float:left;overflow: auto">
-        <legend>Info</legend>
-        #{doLayout /}
-    </fieldset>
-    <fieldset style="float:left;width:150px;overflow: auto">
-        <legend>Links</legend>
-        <ul>
-            <li><a href="@{Distributions.index()}">Distributions</a></li>
-            <li><a href="@{AppPackages.index()}">Packages</a></li>
-        </ul>
-    </fieldset>
-    <div style="clear:both"/>
-    <br />
-    <br />
-    <footer>
-        <hr />
-        <i>alpha</i> philipp(at)consolving(dot)de
-    </footer>
-</body>
+        <fieldset style="float:left;width:220px;overflow: auto">
+            <legend><a href="@{Application.index()}">Index</a> Hosts</legend>
+            #{if hosts.size() == 0}
+            <p><a href="@{Hosts.scan('127.0.0.1')}">scan SAM Host</a></p>
+            #{/if}
+            <table>
+                <tbody>
+                    #{list hosts, as:'host'}
+                    <tr>
+                        <td>#{form @Hosts.delete()}<input type="hidden" value="${host.id}" name="hostId"/><input type="submit" value="X" />#{/form}</td>
+                        <td><a href="@{Hosts.show(host.id)}">${host}</a></td>
+                    </tr>
+                    #{/list}
+                </tbody>
+            </table>
+        </fieldset>
+        <fieldset style="float:left;width:960px;overflow: auto">
+            <legend>Scan</legend>
+            #{form @Hosts.scan()}
+            <input style="width:100px" name="user" id="user" value="root"/>
+            @
+            <input style="width:200px" name="ip" id="ip"/>
+            <input type="submit" value="scan" />
+            #{/form}            
+        </fieldset>
+        <fieldset style="float:left;width:960px;overflow: auto">
+            <legend>Info</legend>
+            #{doLayout /}
+        </fieldset>
+        <fieldset style="float:left;width:100px;overflow: auto">
+            <legend>Links</legend>
+            <ul>
+                <li><a href="@{Application.setup()}">Setup Instructions</a></li>
+                <br />
+                <li><a href="@{Distributions.index()}">Distributions</a></li>
+                <li><a href="@{AppPackages.index()}">Packages</a></li>
+            </ul>
+        </fieldset>
+        <div style="clear:both"/>
+        <br />
+        <br />
+        <footer>
+            <hr />
+            <i>alpha</i> philipp(at)consolving(dot)de
+        </footer>
+    </body>
 </html>

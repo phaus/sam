@@ -13,8 +13,8 @@ import models.Host;
 import play.mvc.Controller;
 
 public class AppPackages extends Controller {
-    public static void Index(){
-        List<AppPackage> packages = AppPackage.findAll();
+    public static void index(){
+        List<AppPackage> packages = AppPackage.find("order by name asc").fetch();
         Set<Host> hosts = Application.getHosts();
         render(hosts,packages);
     }

@@ -1,0 +1,10 @@
+#{extends 'main.html' /}
+#{set title:'Setup Instructions' /}
+<h2>Setup Instructions</h2>
+<ul>
+    <li>
+        <div class="label">public ssh-key</div>
+        <textarea class="value" rows="10" cols="120">${sshKey}</textarea>
+        <div class="info">needs to be inserted in .ssh/authorized_keys.</div>
+    </li>
+</ul>

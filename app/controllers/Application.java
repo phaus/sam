@@ -1,5 +1,6 @@
 package controllers;
 
+import helper.sam.SamHelper;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -20,5 +21,11 @@ public class Application extends Controller {
     public static void index() {
         Set<Host> hosts = Application.getHosts();
         render(hosts);
+    }
+    
+    public static void setup(){
+        String sshKey = SamHelper.getInstance().getPublicSSHKey();
+        Set<Host> hosts = Application.getHosts();
+        render(hosts,sshKey);
     }
 }

@@ -4,8 +4,12 @@
  */
 package models;
 
+import java.util.LinkedList;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import play.cache.Cache;
 import play.db.jpa.Model;
 
@@ -15,31 +19,44 @@ import play.db.jpa.Model;
  */
 @Entity
 public class AppPackage extends Model {
+
     public String version;
     public String name;
     public String description;
-    public String status;
-    
     @ManyToOne
     public Distribution distribution;
-    
-    public static AppPackage findOrCreateByNameAndVersionAndDistribution(String name, String version, Distribution distribution){
-        String key = "PACKAGE_"+name+"_"+version+"_"+distribution.id;
+    @OneToMany(mappedBy = "appPackage")
+    public List<HostPackage> hosts;
+
+    public AppPackage() {
+        hosts = new LinkedList<HostPackage>();
+    }
+
+    public static AppPackage findOrCreateByNameAndVersionAndDistribution(String name, String version, Distribution distribution) {
+        String key = "PACKAGE_" + name + "_" + version + "_" + distribution.id;
         AppPackage ap = Cache.get(key, AppPackage.class);
-        if(ap == null){
+        if (ap == null) {
             ap = AppPackage.find(" name = ? and version = ? and distribution = ?", name, version, distribution).first();
         }
-        if(ap == null){
+        if (ap == null) {
             ap = new AppPackage();
             ap.name = name;
             ap.version = version;
-            Cache.set(key, ap, "1d");
         }
         return ap;
     }
-    
+
+    public AppPackage update() {
+        String key = "PACKAGE_" + name + "_" + version + "_" + distribution.id;
+        if (this.id == null) {
+            Cache.set(key, this, "1d");
+            return save();
+        }
+        return merge();
+    }
+
     @Override
-    public String toString(){
-        return this.name+" "+this.version+" for "+this.distribution;
+    public String toString() {
+        return name + " " + version + " for " + distribution;
     }
 }

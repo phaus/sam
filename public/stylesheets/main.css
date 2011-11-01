@@ -1,0 +1,12 @@
+.label {
+    clear: both;
+    margin: 5px 10px 5px;
+}
+.value{
+    border: black dashed 1px;
+    padding: 10px;
+    margin: 5px;
+}
+.info{
+    float: right;
+}

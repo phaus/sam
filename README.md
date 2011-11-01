@@ -34,7 +34,6 @@ Ubuntu and Debian is currently supported.
 
 ## TODO
 
-* Adding Host->Packages Dependency
 * Add AJAX calls
 * Add/Remove Packages
 * Network-Config
