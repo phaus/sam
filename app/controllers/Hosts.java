@@ -21,12 +21,12 @@ import play.mvc.Controller;
  */
 public class Hosts extends Controller {
     
-    public static void scan(String ip){
+    public static void scan(String user, String ip){
         if(ip == null || ip.isEmpty()){
             Application.index();
         }
         PlatformHelper helper = UnixPlatformHelper.getInstance();
-        helper.setHost(Host.findOrCreateByUserAndIp("root", ip));        
+        helper.setHost(Host.findOrCreateByUserAndIp(user, ip));
         helper.detectHost();
         helper.dectectDistribution();
         helper.detectPlatform();
