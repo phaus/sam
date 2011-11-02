@@ -6,7 +6,7 @@
     <tbody>
         <tr>
             <td>There are <i>${packages.size()}</i> Packages installed. | </td>
-            <td><a href="@{Hosts.scan(host.ip)}">rescan Host</a> | </td>
+            <td><a href="@{Hosts.scan(host.user,host.ip)}">rescan Host</a> | </td>
             <td><a href="@{Packages.showUpdates(host.id)}">show Updates</a> | </td>
             <td><a href="@{Packages.showDistUpgrade(host.id)}">show Upgrades</a> | </td>
             <td>#{form @Packages.search()}
