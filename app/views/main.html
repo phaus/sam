@@ -20,7 +20,7 @@
         <fieldset style="float:left;width:220px;overflow: auto">
             <legend><a href="@{Application.index()}">Index</a> Hosts</legend>
             #{if hosts.size() == 0}
-            <p><a href="@{Hosts.scan('127.0.0.1')}">scan SAM Host</a></p>
+            <p><a href="@{Hosts.scan('root','127.0.0.1')}">scan SAM Host</a></p>
             #{/if}
             <table>
                 <tbody>
