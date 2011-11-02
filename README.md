@@ -15,11 +15,16 @@ Ubuntu and Debian is currently supported.
 
 ## Features
 
+* Host Platforms
+ * "Debian"
+ * "Ubuntu"
+ 
 * Detects Platform/Distributions
- * "Darwin",
- * "Debian",
- * "Fedora",
- * "Gentoo",
+ * "Arch Linux"
+ * "Darwin" (MacOs)
+ * "Debian"
+ * "Fedora"
+ * "Gentoo"
  * "Ubuntu",
  * "Mandrake",
  * "Red Hat",
@@ -30,10 +35,12 @@ Ubuntu and Debian is currently supported.
  * "UnitedLinux",
  * "Yellow dog"
 
-* Collects Package Data for Ubuntu/Debian
+* Collects Package Data for Ubuntu/Debian some of arch Linux
 
 ## TODO
 
+* Decent Logging of Setup Process
+* Support for Windows Systems
 * Add AJAX calls
 * Add/Remove Packages
 * Network-Config
