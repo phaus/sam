@@ -49,7 +49,7 @@ init (){
 		ran="true"
 	fi
 
-	if [ -f /etc/debian_version ]; then 
+	if [ $ran = "false" && -f /etc/debian_version ]; then 
 		installForDebian
 		ran="true"
 	fi
