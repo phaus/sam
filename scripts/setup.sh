@@ -31,7 +31,6 @@ aptSetup (){
 }
 
 init (){
-	ran="false"
 	if [ ! -d ~/samt ]; then
 		echo "creating folder for SAM Tools"
 		mkdir ~/samt
@@ -46,15 +45,9 @@ init (){
 	
 	if [ -f /etc/lsb-release ]; then 
 		installForUbuntu
-		ran="true"
-	fi
-
-	if [ $ran = "false" && -f /etc/debian_version ]; then 
+	elif [ -f /etc/debian_version ]; then 
 		installForDebian
-		ran="true"
-	fi
-	
-	if [ $ran = "false" ]; then
+	else		
 		echo "this os/architecture is currently not supported!"
 	fi
 }
