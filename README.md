@@ -39,9 +39,9 @@ Ubuntu and Debian is currently supported.
 
 ## TODO
 
-* Devent WebProxy Setup (With SSL/Lighty)
+* Decent WebProxy Setup (With SSL/lighttpd)
 * Decent Logging of Setup Process
-* Support for Windows Systems
+* Support for Windows Systems (with winexe)
 * Add AJAX calls
 * Add/Remove Packages
 * Network-Config
