@@ -39,6 +39,7 @@ Ubuntu and Debian is currently supported.
 
 ## TODO
 
+* Devent WebProxy Setup (With SSL/Lighty)
 * Decent Logging of Setup Process
 * Support for Windows Systems
 * Add AJAX calls
