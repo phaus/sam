@@ -8,9 +8,9 @@ nbproject
 
 **/data/attachments/*
 
-tmp
+tmp/*
 
-db
+db/*
 
 modules/*
 
