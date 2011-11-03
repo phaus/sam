@@ -35,6 +35,7 @@ init (){
 		echo "creating folder for SAM Tools"
 		mkdir ~/samt
 		mkdir ~/samt/scripts
+		mkdir ~/samt/logs
 	fi
 	
 	if [ `uname -m` = "x86_64" ]; then
