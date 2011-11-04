@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import play.Logger;
 import play.cache.Cache;
 import play.db.jpa.Model;
 
@@ -67,7 +68,9 @@ public class Platform extends Model {
     }
     
     public void setDistribution(Distribution distribution){
+		Logger.info("setting Distribution to: " + distribution);
         this.distribution = distribution;
+		update();
     }
     
     public void addHost(Host host){

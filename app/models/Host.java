@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import play.Logger;
 import play.cache.Cache;
 import play.db.jpa.Model;
-
 /**
  *
  * @author philipp
@@ -52,9 +51,9 @@ public class Host extends Model implements Comparable<Host> {
     }
 
     public void setPlatform(Platform platform) {
-        Logger.debug("setting Platform to: " + platform);
+        Logger.info("setting Platform to: " + platform);
         this.platform = platform;
-        this.save();
+        this.update();
     }
 
     public void updatePackages(List<AppPackage>packages){

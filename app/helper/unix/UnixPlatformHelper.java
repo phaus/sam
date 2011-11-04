@@ -116,8 +116,8 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
         DetectPlatformPP dp = new DetectPlatformPP(this.distribution);
         runCommand(dp.getCommand(), dp);
         platform = dp.getPlatform();
-        platform.distribution = distribution;
-        host.platform = platform.update();
+        platform.setDistribution(distribution);
+        host.setPlatform(platform.update());
         return platform;
     }
 

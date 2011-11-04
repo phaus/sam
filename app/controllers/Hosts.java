@@ -11,6 +11,7 @@ import java.util.Set;
 import models.AppPackage;
 import models.Distribution;
 import models.Host;
+import models.HostPackage;
 import models.Platform;
 import play.cache.Cache;
 import play.mvc.Controller;
@@ -31,7 +32,9 @@ public class Hosts extends Controller {
         helper.dectectDistribution();
         helper.detectPlatform();
         helper.listPackages();
-        show(helper.getHost().id);
+		Host host = helper.getHost();
+		host.update();
+        show(host.id);
     }
     
     public static void show(long hostId){
@@ -45,6 +48,7 @@ public class Hosts extends Controller {
     
     public static void delete(long hostId){
         Host host = Host.findById(hostId);
+		HostPackage.cleanForHost(host);
         Cache.safeDelete(host.getCacheKey());
         host.delete();
         Application.index();
