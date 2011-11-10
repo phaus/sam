@@ -18,7 +18,8 @@ import play.Logger;
 public class SimpeOutputPP implements ProcessParser {
     
     public String startToken =  null;
-    public List<String> output;
+    public String stopToken =  null;
+    protected List<String> output;
     
     public SimpeOutputPP(){
         this.output = new ArrayList<String>();
@@ -29,13 +30,16 @@ public class SimpeOutputPP implements ProcessParser {
             boolean on = false;
             String line;
             while ((line = bufferedreader.readLine()) != null && !line.startsWith("Warning:")) {
-                if(startToken != null && line.startsWith(startToken)){
-                    on = true;
-                }
+                if(stopToken != null && line.startsWith(stopToken)){
+                    on = false;
+                    break;
+                }  
                 if(startToken == null || on){
                     this.output.add(line.trim());
                 }
-                
+                if(startToken != null && line.startsWith(startToken)){
+                    on = true;
+                }                 
             }
         } catch (IOException ex) {
             Logger.error(ex.getLocalizedMessage());

@@ -30,7 +30,7 @@ public class DetectDistributionNamePP implements ProcessParser {
         "release",
         "slackware-release", "slackware-version",
         "sun-release",
-        "SUSE-release",
+        "SUSE-release", "SuSE-release",
         "UnitedLinux-release",
         "yellowdog-release"
     };
@@ -46,7 +46,7 @@ public class DetectDistributionNamePP implements ProcessParser {
         "Solaris/Sparc",
         "Slackware", "Slackware",
         "Sun JDS",
-        "Novell SUSE",
+        "Novell SUSE", "openSuse",
         "UnitedLinux",
         "Yellow dog"
     };

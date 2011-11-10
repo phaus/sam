@@ -14,6 +14,7 @@ import play.mvc.Controller;
 
 public class AppPackages extends Controller {
     public static void index(){
+        // TODO add order by name query
         List<AppPackage> packages = AppPackage.find("order by name asc").fetch();
         Set<Host> hosts = Application.getHosts();
         render(hosts,packages);

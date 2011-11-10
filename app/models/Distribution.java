@@ -24,7 +24,7 @@ public class Distribution extends Model {
     
     public String version;
     public String name;
-
+    
     public Distribution(String name, String version) {
         this.packages = new LinkedList<AppPackage>();
         this.platforms = new LinkedList<Platform>();

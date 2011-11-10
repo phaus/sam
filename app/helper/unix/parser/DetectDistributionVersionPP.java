@@ -14,21 +14,28 @@ import play.Logger;
  * @author philipp
  */
 public class DetectDistributionVersionPP implements ProcessParser {
+
     private String name;
     private String version;
-    public DetectDistributionVersionPP(String name){
+
+    public DetectDistributionVersionPP(String name) {
         this.name = name;
     }
+
     public void parse(BufferedReader bufferedreader) {
         try {
             String line;
             while ((line = bufferedreader.readLine()) != null && !line.startsWith("Warning:")) {
-                if("Debian".equals(name) ){
+                if ("Debian".equals(name)) {
                     this.version = line.trim();
                     break;
                 }
-                if("Ubuntu".equals(name) && line.startsWith("DISTRIB_RELEASE=")){
-                    this.version = line.replace("DISTRIB_RELEASE=","").trim();
+                if ("Ubuntu".equals(name) && line.startsWith("DISTRIB_RELEASE=")) {
+                    this.version = line.replace("DISTRIB_RELEASE=", "").trim();
+                    break;
+                }
+                if (name.toLowerCase().endsWith("suse") && line.startsWith("VERSION =")) {
+                    this.version = line.replace("VERSION = ", "").trim();
                     break;
                 }
                 this.version = line.trim();
@@ -37,22 +44,25 @@ public class DetectDistributionVersionPP implements ProcessParser {
             Logger.error(ex.getLocalizedMessage());
         }
     }
-    
-    public String getCommand(){
+
+    public String getCommand() {
         String command = "uname -v";
-        if("Debian".equals(name)){
+        if ("Debian".equals(name)) {
             command = "cat /etc/debian_version";
         }
-        if("Ubuntu".equals(name)){
+        if ("Ubuntu".equals(name)) {
             command = "cat /etc/lsb-release";
         }
-        if("Darwin".equals(name)){
+        if ("Darwin".equals(name)) {
             command = "uname -r";
+        }
+        if (name.toLowerCase().endsWith("suse")) {
+            command = "cat /etc/SuSE-release";
         }
         return command;
     }
-    
-    public String getVersion(){
+
+    public String getVersion() {
         return this.version;
     }
 }

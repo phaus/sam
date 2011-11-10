@@ -5,9 +5,7 @@
 package helper.unix.parser;
 
 import helper.ProcessParser;
-import helper.parser.tools.ArcLinuxPackageParser;
-import helper.parser.tools.DebianPackageParser;
-import helper.parser.tools.PackageParser;
+import helper.PackageParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -57,6 +55,12 @@ public class ListPackagePP implements ProcessParser {
             on = true;
             return new ArcLinuxPackageParser(distribution);
         }
+        
+        if(this.distribution.name.toLowerCase().endsWith("suse")){    
+        on = true;
+        return new SusePackageParser(distribution);
+        }
+        
         startToken = "+++-";
         return new DebianPackageParser(distribution);
     }
@@ -73,6 +77,9 @@ public class ListPackagePP implements ProcessParser {
     public String getCommand() {
         if ("Arch Linux".equals(this.distribution.name)) {
             return "pacman -Q";
+        }
+        if(this.distribution.name.toLowerCase().endsWith("suse")){
+            return "rpm -qa --queryformat=\"%{NAME} %{version} %{summary} \\n\" | sort -n";
         }
         return "dpkg -l";
     }

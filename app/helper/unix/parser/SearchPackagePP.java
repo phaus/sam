@@ -23,6 +23,10 @@ public class SearchPackagePP extends SimpeOutputPP {
         if("Arch Linux".equals(this.distribution.name)){
             return "pacman -Ss "+query;
         }
+        if(this.distribution.name.toLowerCase().endsWith("suse")){
+            super.startToken = "--+--";
+            return " zypper search "+query;
+        }
         super.startToken = "Paketlisten werden gelesen...";
         return "apt-get update && apt-cache search "+query;
     }
