@@ -27,21 +27,38 @@ aptSetup (){
 	echo "for $DIST $ARCH $VERS"
 	sudo apt-get -y install wget
 	wget https://raw.github.com/phaus/sam/master/scripts/apt/playSetup.sh -O ~/samt/scripts/playSetup.sh && bash ~/samt/scripts/playSetup.sh
-	wget https://raw.github.com/phaus/sam/master/scripts/apt/installSAM.sh -O ~/samt/scripts/installSAM.sh && bash ~/samt/scripts/installSAM.sh	
+	wget https://raw.github.com/phaus/sam/master/scripts/apt/installSAM.sh -O ~/samt/scripts/installSAM.sh && bash ~/samt/scripts/installSAM.sh
+	commonSetup
+	# needs to be called from another location
+	if [ -f ~/samt/packages/winexe_1.00_$ARCH.deb ]; then
+		dpkg -i ~/samt/packages/winexe_1.00_$ARCH.deb
+	fi
+}
+
+commonSetup() {
+	wget https://raw.github.com/phaus/sam/master/scripts/common/download.winexe.sh -O ~/samt/scripts/download.winexe.sh && bash ~/samt/scripts/download.winexe.sh $DIST $VERS $ARCH ~/samt/packages
 }
 
 init (){
+	# move folders to an array and check in a loop
 	if [ ! -d ~/samt ]; then
 		echo "creating folder for SAM Tools"
 		mkdir ~/samt
 		mkdir ~/samt/scripts
+		mkdir ~/samt/packages
 		mkdir ~/samt/logs
 	fi
 	
 	if [ `uname -m` = "x86_64" ]; then
 		ARCH="amd64"
+	elif [ `uname -m` = "amd64" ]; then
+		ARCH="amd64"
+	elif [ `uname -m` = "i686" ]; then
+		ARCH="i386"
+	elif [ `uname -m` = "i386" ]; then
+		ARCH="i386"
 	else
-		ARCH="i586"
+		echo "this os/architecture is currently not supported!"
 	fi
 	
 	if [ -f /etc/lsb-release ]; then 
