@@ -13,4 +13,4 @@ then
 fi
 
 bash 
-wget https://raw.github.com/phaus/sam/master/scripts/common/build.opensuse.sh -O ~/samt/scripts/build.opensuse.sh && bash ~/samt/scripts/download.opensuse.sh $APP $USR $DIST $VERS $ARCH $DEST
+wget https://raw.github.com/phaus/sam/master/scripts/common/build.opensuse.sh -O ~/samt/scripts/build.opensuse.sh && bash ~/samt/scripts/build.opensuse.sh $APP $USR $DIST $VERS $ARCH $DEST
