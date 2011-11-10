@@ -10,8 +10,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import play.Logger;
-import play.cache.Cache;
 import play.db.jpa.Model;
 
 /**
@@ -20,9 +18,9 @@ import play.db.jpa.Model;
  */
 @Entity
 public class Platform extends Model {
-    @OneToMany(mappedBy="platform")
-    public List<Host> hosts;
 
+    @OneToMany(mappedBy = "platform")
+    public List<Host> hosts;
     @ManyToOne
     public Distribution distribution;
     
@@ -33,22 +31,19 @@ public class Platform extends Model {
     public String processor;
     public String hardwarePlatform;
     public String operationSystem;
-    
-    public Platform(){
+
+    public Platform() {
         this.hosts = new LinkedList<Host>();
     }
-    
-    public static Platform findOrCreateByParameter(PlatformParameters paras){
-        String key = paras.toString();
-        Platform p = Cache.get(key, Platform.class);
-        if(p == null){
-            p = Platform.find(" operationSystem = ? and machine = ? and kernelVersion = ? and kernelRelease = ?",
-                    paras.operationSystem,
-                    paras.machine,
-                    paras.kernelVersion,
-                    paras.kernelRelease).first();
-        }
-        if(p == null){
+
+    public static Platform findOrCreateByParameter(PlatformParameters paras) {
+        Platform p = Platform.find(" operationSystem = ? and machine = ? and kernelVersion = ? and kernelRelease = ?",
+                paras.operationSystem,
+                paras.machine,
+                paras.kernelVersion,
+                paras.kernelRelease).first();
+
+        if (p == null) {
             p = new Platform();
             p.operationSystem = paras.operationSystem;
             p.machine = paras.machine;
@@ -57,28 +52,9 @@ public class Platform extends Model {
         }
         return p;
     }
-    
-    public Platform update(){
-        String key = operationSystem+"_"+machine+" "+kernelVersion+" "+kernelRelease;
-        Cache.set(key, this, "1d");
-        if(this.id == null){
-            return this.save();
-        }
-        return this.merge();
-    }
-    
-    public void setDistribution(Distribution distribution){
-		Logger.info("setting Distribution to: " + distribution);
-        this.distribution = distribution;
-		update();
-    }
-    
-    public void addHost(Host host){
-        this.hosts.add(host);
-    }
-    
+
     @Override
-    public String toString(){
-        return operationSystem+"_"+machine+" "+kernelVersion;
+    public String toString() {
+        return operationSystem + "_" + machine + " " + kernelVersion;
     }
 }

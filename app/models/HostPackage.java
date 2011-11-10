@@ -40,10 +40,13 @@ public class HostPackage extends Model {
     }
 
     public static void cleanForHost(Host host) {
+        HostPackage.delete(" host = ?", host);
+        /*
         List<HostPackage> hps = HostPackage.find(" host = ?", host).fetch();
         for (HostPackage hp : hps) {
             hp.delete();
-
         }
+        
+         */
     }
 }

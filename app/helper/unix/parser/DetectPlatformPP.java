@@ -84,7 +84,7 @@ public class DetectPlatformPP implements ProcessParser {
     }
     
     public Platform getPlatform() {
-        this.platform = Platform.findOrCreateByParameter(PlatformParameters.createFromPlatform(this.platform));
-        return this.platform;
+        platform = Platform.findOrCreateByParameter(PlatformParameters.createFromPlatform(this.platform));
+        return platform;
     }
 }

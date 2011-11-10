@@ -13,8 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import play.Logger;
-import play.cache.Cache;
 import play.db.jpa.Model;
+
 /**
  *
  * @author philipp
@@ -22,27 +22,30 @@ import play.db.jpa.Model;
 @Entity
 public class Host extends Model implements Comparable<Host> {
 
-    public String hostname = "";
     @ManyToOne
     public Platform platform;
+    @OneToMany(mappedBy = "host")
+    public List<HostPackage> packages;
+    public String hostname = "";
     public String dnsdomainname = "";
     public String user;
     public String ip;
-    @OneToMany(mappedBy="host")
-    public List<HostPackage> packages;
 
     public Host() {
         packages = new LinkedList<HostPackage>();
     }
 
     public static Host findOrCreateByUserAndIp(String user, String ip) {
+        ip = Host.getIp(ip);
         Host host = Host.find(" user = ? and ip = ?", user, ip).first();
         if (host == null) {
             host = new Host();
             host.user = user;
             host.ip = ip;
-            host.save();
+        } else {
+            Logger.info("found Host: " + host);
         }
+        Logger.info("Host: " + host);
         return host;
     }
 
@@ -50,42 +53,15 @@ public class Host extends Model implements Comparable<Host> {
         return "HOST_" + user + "_" + getIp(ip);
     }
 
-    public void setPlatform(Platform platform) {
-        Logger.info("setting Platform to: " + platform);
-        this.platform = platform;
-        this.update();
-    }
-
-    public void updatePackages(List<AppPackage>packages){
-        if(this.id == null){
-            this.save();
-        }
-        HostPackage.cleanForHost(this);
-        for(AppPackage ap : packages){
-            this.packages.add(HostPackage.findOrCreate(this, ap));
-        }
-        this.merge();
-    }
- 
-    
-    public List<AppPackage>getPackages(){
+    public List<AppPackage> getPackages() {
         return HostPackage.getAppPackagesForHost(this);
     }
-    
+
     public Distribution getDistribution() {
         if (this.platform != null) {
             return this.platform.distribution;
         }
         return null;
-    }
-
-    public Host update() {
-        String key = getCacheKey();
-        Cache.set(key, this, "1d");
-        if (this.id == null) {
-            return this.save();
-        }
-        return this.merge();
     }
 
     public static String getIp(String ip) {
@@ -104,8 +80,7 @@ public class Host extends Model implements Comparable<Host> {
 
     @Override
     public String toString() {
-        String out = hostname + "." + dnsdomainname;
-        return out;
+        return hostname + "." + dnsdomainname;
     }
 
     public int compareTo(Host t) {

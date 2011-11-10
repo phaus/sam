@@ -19,7 +19,7 @@ public class DetectHostPP implements ProcessParser {
     private Host host;
 
     public DetectHostPP(Host host) {
-        this.host = host;
+        this.host = host.save();
     }
 
     public Host getHost() {
@@ -30,13 +30,11 @@ public class DetectHostPP implements ProcessParser {
         try {
             int i = 0;
             String line;
-            this.host = Host.findById(this.host.id);
             while ((line = bufferedreader.readLine()) != null && !line.startsWith("Warning:")) {
                 updateHost(i, line.trim());
                 i++;
             }
             this.host.ip = Host.getIp(this.host.ip);
-            this.host.save();
         } catch (IOException ex) {
             Logger.error(ex.getLocalizedMessage());
         }

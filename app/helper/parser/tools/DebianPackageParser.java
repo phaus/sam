@@ -29,7 +29,7 @@ public class DebianPackageParser implements PackageParser {
             p.description = concatParts(parts, 3, " ");
             p.distribution = distribution;
         }
-        return p.update();
+        return p.save();
     }
 
     private String[] cleanArray(String parts[]) {

@@ -13,6 +13,7 @@ import models.Distribution;
 import models.Host;
 import models.HostPackage;
 import models.Platform;
+import play.Logger;
 import play.cache.Cache;
 import play.mvc.Controller;
 
@@ -21,9 +22,9 @@ import play.mvc.Controller;
  * @author philipp
  */
 public class Hosts extends Controller {
-    
-    public static void scan(String user, String ip){
-        if(ip == null || ip.isEmpty()){
+
+    public static void scan(String user, String ip) {
+        if (ip == null || ip.isEmpty()) {
             Application.index();
         }
         PlatformHelper helper = UnixPlatformHelper.getInstance();
@@ -31,24 +32,25 @@ public class Hosts extends Controller {
         helper.detectHost();
         helper.dectectDistribution();
         helper.detectPlatform();
+        helper.getDistribution();
         helper.listPackages();
-		Host host = helper.getHost();
-		host.update();
+        Host host = helper.getHost();
         show(host.id);
     }
-    
-    public static void show(long hostId){
+
+    public static void show(long hostId) {
         Host host = Host.findById(hostId);
+        Logger.info("Host: " + host);
         Set<Host> hosts = Application.getHosts();
         Platform platform = host.platform;
-        Distribution distribution = platform.distribution;
+        Distribution distribution = host.getDistribution();
         List<AppPackage> packages = host.getPackages();
-        render(hosts, host, distribution, platform, packages);         
+        render(hosts, host, distribution, platform, packages);
     }
-    
-    public static void delete(long hostId){
+
+    public static void delete(long hostId) {
         Host host = Host.findById(hostId);
-		HostPackage.cleanForHost(host);
+        HostPackage.cleanForHost(host);
         Cache.safeDelete(host.getCacheKey());
         host.delete();
         Application.index();

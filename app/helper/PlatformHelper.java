@@ -26,6 +26,7 @@ public interface PlatformHelper {
    public void updateRepository();
    public void setHost(Host host);
    public Host getHost();
+   public Distribution getDistribution();
    
    // TODO provisorische Lösung :-)
    public List<String> updatedPackages(); 

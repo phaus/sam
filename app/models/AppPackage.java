@@ -46,15 +46,6 @@ public class AppPackage extends Model {
         return ap;
     }
 
-    public AppPackage update() {
-        String key = "PACKAGE_" + name + "_" + version + "_" + distribution.id;
-        if (this.id == null) {
-            Cache.set(key, this, "1d");
-            return save();
-        }
-        return merge();
-    }
-
     @Override
     public String toString() {
         return name + " " + version + " for " + distribution;

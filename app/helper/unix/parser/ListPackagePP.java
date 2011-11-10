@@ -15,6 +15,7 @@ import java.util.List;
 import models.AppPackage;
 import models.Distribution;
 import models.Host;
+import models.HostPackage;
 import play.Logger;
 
 /**
@@ -38,14 +39,14 @@ public class ListPackagePP implements ProcessParser {
                 if (on) {
                     p = parser.parsePartsToPackage(line);
                     packages.add(p);
-                    p.update();
+                    p.save();
                 }
                 if (line.startsWith(startToken)) {
                     on = true;
                 }
             }
-            host.updatePackages(packages);
-            this.distribution = parser.getDistribution();
+            Logger.info("updating HostPackages for: " + host);
+            updateHostPackages();
         } catch (IOException ex) {
             Logger.error(ex.getLocalizedMessage());
         }
@@ -60,6 +61,15 @@ public class ListPackagePP implements ProcessParser {
         return new DebianPackageParser(distribution);
     }
 
+    private void updateHostPackages() {
+        HostPackage.cleanForHost(host);
+        HostPackage hp;
+        for (AppPackage ap : this.packages) {
+            hp = new HostPackage(host, ap);
+            hp.save();
+        }
+    }
+
     public String getCommand() {
         if ("Arch Linux".equals(this.distribution.name)) {
             return "pacman -Q";
@@ -68,12 +78,12 @@ public class ListPackagePP implements ProcessParser {
     }
 
     public void setDistribution(Distribution distribution) {
-        Logger.info("distribution is: "+distribution);
+        Logger.info("distribution is: " + distribution);
         this.distribution = distribution;
     }
-    
-    public void setHost(Host host){
-        Logger.info("Host is: "+host);
+
+    public void setHost(Host host) {
+        Logger.info("Host is: " + host);
         this.host = host;
     }
 

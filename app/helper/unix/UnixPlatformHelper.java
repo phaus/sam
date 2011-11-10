@@ -19,6 +19,7 @@ import models.AppPackage;
 import models.Distribution;
 import models.Host;
 import models.Platform;
+import play.Logger;
 
 /**
  *
@@ -116,9 +117,9 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
         DetectPlatformPP dp = new DetectPlatformPP(this.distribution);
         runCommand(dp.getCommand(), dp);
         platform = dp.getPlatform();
-        platform.setDistribution(distribution);
-        host.setPlatform(platform.update());
-        return platform;
+        platform.distribution = distribution.save();
+        Logger.info("Platform: " + platform);
+        return platform.save();
     }
 
     public Distribution dectectDistribution() {
@@ -128,7 +129,8 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
         DetectDistributionVersionPP ddv = new DetectDistributionVersionPP(ddn.getName());
         runCommand(ddv.getCommand(), ddv);
         distribution = Distribution.findOrCreateByNameAndVersion(ddn.getName(), ddv.getVersion());
-        return distribution;
+        Logger.info("Distribution: " + distribution);
+        return distribution.save();
     }
 
     public Host detectHost() {
@@ -137,7 +139,7 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
                 + "dnsdomainname";
         runCommand(command, dh);
         host = dh.getHost();
-        return host;
+        return host.save();
     }
 
     public List<String> updatedPackages() {
@@ -163,6 +165,11 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
     }
 
     public Host getHost() {
-        return host;
+        host.platform = platform.save();
+        return host.save();
+    }
+
+    public Distribution getDistribution() {
+        return this.distribution;
     }
 }
