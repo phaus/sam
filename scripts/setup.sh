@@ -31,7 +31,7 @@ aptSetup (){
 	commonSetup
 	# needs to be called from another location
 	if [ -f ~/samt/packages/winexe_1.00_$ARCH.deb ]; then
-		dpkg -i ~/samt/packages/winexe_1.00_$ARCH.deb
+		sudo dpkg -i ~/samt/packages/winexe_1.00_$ARCH.deb
 	fi
 }
 
