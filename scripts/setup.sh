@@ -26,7 +26,7 @@ aptSetup (){
 	echo "general apt setup"
 	echo "for $DIST $ARCH $VERS"
 	SUDO=`which sudo`
-	if[ -z $SUDO ]; then
+	if[ ! -n $SUDO ]; then
 		echo "Enter root mode"
 		su
 		apt-get -y install wget sudo
