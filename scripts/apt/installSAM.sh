@@ -1,4 +1,19 @@
 #!/bin/bash
+
+
+showIps(){
+  HN=`which hostname`
+  echo ""
+  echo "========================================================"
+  echo "open one of these addresses (depending on you network)"
+  echo "========================================================"
+  for ip in `$HN -I`; do
+        echo "    http://${ip}:9000"
+  done
+  echo "========================================================"
+}
+
+
 echo "========================================"
 echo "  preparing system	              "
 echo "========================================"
@@ -19,3 +34,4 @@ sudo mkdir -p /var/log/sam
 sudo ln -s /var/log/sam logs
 sudo $PLAY start /usr/local/sam
 
+showIps
