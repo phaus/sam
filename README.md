@@ -1,6 +1,6 @@
 # SAM - System Administration and Management
 
-## Installation
+## Installation (currently only on Ubuntu/Debian Systems)
 
 wget https://raw.github.com/phaus/sam/master/scripts/setup.sh && bash setup.sh
 
@@ -32,10 +32,15 @@ Ubuntu and Debian is currently supported.
  * "Slackware",
  * "Sun JDS",
  * "Novell SUSE",
+ * "openSuSe",
  * "UnitedLinux",
  * "Yellow dog"
 
-* Collects Package Data for Ubuntu/Debian some of arch Linux
+* Collects Package Data for 
+  * Ubuntu
+  * Debian
+  * openSuSe
+  * some of arch Linux
 
 ## TODO
 
