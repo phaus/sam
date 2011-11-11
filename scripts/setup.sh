@@ -25,7 +25,14 @@ installForDebian (){
 aptSetup (){
 	echo "general apt setup"
 	echo "for $DIST $ARCH $VERS"
-	sudo apt-get -y install wget sudo
+	SUDO=`which sudo`
+	if[ -z $SUDO ]; then
+		echo "Enter root mode"
+		su
+		apt-get -y install wget sudo
+	else
+		sudo apt-get -y install wget
+	fi
 	EXT=deb
 	commonSetup
 	wget https://raw.github.com/phaus/sam/master/scripts/apt/playSetup.sh -O ~/samt/scripts/playSetup.sh && bash ~/samt/scripts/playSetup.sh
