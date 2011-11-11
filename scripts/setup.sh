@@ -12,17 +12,13 @@ installForUbuntu (){
 		if [ $K = "DISTRIB_RELEASE" ] ; then
 			VERS=$V
 		fi
-	done
-	EXT=deb
-	commonSetup
+	done	
         aptSetup
 }
 
 installForDebian (){
 	DIST="Debian"
 	VERS=`cat /etc/debian_version`
-	EXT=deb	
-        commonSetup
 	aptSetup
 }
 
@@ -30,6 +26,8 @@ aptSetup (){
 	echo "general apt setup"
 	echo "for $DIST $ARCH $VERS"
 	sudo apt-get -y install wget sudo
+	EXT=deb
+	commonSetup
 	wget https://raw.github.com/phaus/sam/master/scripts/apt/playSetup.sh -O ~/samt/scripts/playSetup.sh && bash ~/samt/scripts/playSetup.sh
 	wget https://raw.github.com/phaus/sam/master/scripts/apt/installSAM.sh -O ~/samt/scripts/installSAM.sh && bash ~/samt/scripts/installSAM.sh
 }
