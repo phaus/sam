@@ -29,7 +29,7 @@ installForDebian (){
 aptSetup (){
 	echo "general apt setup"
 	echo "for $DIST $ARCH $VERS"
-	sudo apt-get -y install wget
+	sudo apt-get -y install wget sudo
 	wget https://raw.github.com/phaus/sam/master/scripts/apt/playSetup.sh -O ~/samt/scripts/playSetup.sh && bash ~/samt/scripts/playSetup.sh
 	wget https://raw.github.com/phaus/sam/master/scripts/apt/installSAM.sh -O ~/samt/scripts/installSAM.sh && bash ~/samt/scripts/installSAM.sh
 }
