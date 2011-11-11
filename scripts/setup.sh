@@ -2,7 +2,7 @@
 DIST=""
 ARCH=""
 VERS=""
-
+EXT=""
 installForUbuntu (){
 	DIST="Ubuntu"
 	configs=`cat /etc/lsb-release`
@@ -13,12 +13,16 @@ installForUbuntu (){
 			VERS=$V
 		fi
 	done
-	aptSetup
+	EXT=deb
+	commonSetup
+        aptSetup
 }
 
 installForDebian (){
 	DIST="Debian"
 	VERS=`cat /etc/debian_version`
+	EXT=deb	
+        commonSetup
 	aptSetup
 }
 
@@ -28,15 +32,14 @@ aptSetup (){
 	sudo apt-get -y install wget
 	wget https://raw.github.com/phaus/sam/master/scripts/apt/playSetup.sh -O ~/samt/scripts/playSetup.sh && bash ~/samt/scripts/playSetup.sh
 	wget https://raw.github.com/phaus/sam/master/scripts/apt/installSAM.sh -O ~/samt/scripts/installSAM.sh && bash ~/samt/scripts/installSAM.sh
-	commonSetup
-	# needs to be called from another location
-	if [ -f ~/samt/packages/winexe_1.00_$ARCH.deb ]; then
-		sudo dpkg -i ~/samt/packages/winexe_1.00_$ARCH.deb
-	fi
 }
 
 commonSetup() {
 	wget https://raw.github.com/phaus/sam/master/scripts/common/download.winexe.sh -O ~/samt/scripts/download.winexe.sh && bash ~/samt/scripts/download.winexe.sh $DIST $VERS $ARCH ~/samt/packages
+	# needs to be called from another location
+	if [ -f ~/samt/packages/winexe_1.00_$ARCH.$EXT ]; then
+		sudo dpkg -i ~/samt/packages/winexe_1.00_$ARCH.$EXT
+	fi
 }
 
 init (){
