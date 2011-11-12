@@ -26,12 +26,12 @@ aptSetup (){
 	echo "general apt setup"
 	echo "for $DIST $ARCH $VERS"
 	SUDO=`which sudo`
-	if [ ! -n $SUDO ]; then
+	if [ -f $SUDO ]; then
+		sudo apt-get -y install wget
+	else
 		echo "Enter root mode"
 		su
 		apt-get -y install wget sudo
-	else
-		sudo apt-get -y install wget
 	fi
 	EXT=deb
 	commonSetup
