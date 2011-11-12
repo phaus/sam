@@ -25,7 +25,8 @@ installForDebian (){
 aptSetup (){
 	echo "general apt setup"
 	echo "for $DIST $ARCH $VERS"
-	if [ ! -n `which sudo` ]; then
+	SUDO=`which sudo`
+	if [ ! -n $SUDO ]; then
 		echo "Enter root mode"
 		su
 		apt-get -y install wget sudo
