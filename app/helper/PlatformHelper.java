@@ -32,4 +32,5 @@ public interface PlatformHelper {
    public List<String> updatedPackages(); 
    public List<String> upgradeDistribution(); 
    public List<String> searchPackage(String query);
+   public int getStatus();
 }

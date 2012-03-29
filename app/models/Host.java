@@ -1,6 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Host
+ * 29.03.2012
+ * @author Philipp Haussleiter
+ *
  */
 package models;
 
@@ -45,7 +47,6 @@ public class Host extends Model implements Comparable<Host> {
         } else {
             Logger.info("found Host: " + host);
         }
-        Logger.info("Host: " + host);
         return host;
     }
 

@@ -1,6 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * DetectHostPP
+ * 29.03.2012
+ * @author Philipp Haussleiter
+ *
  */
 package helper.unix.parser;
 
@@ -19,7 +21,7 @@ public class DetectHostPP implements ProcessParser {
     private Host host;
 
     public DetectHostPP(Host host) {
-        this.host = host.save();
+        this.host = host;
     }
 
     public Host getHost() {

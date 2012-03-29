@@ -1,6 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Hosts
+ * 29.03.2012
+ * @author Philipp Haussleiter
+ *
  */
 package controllers;
 
@@ -29,12 +31,17 @@ public class Hosts extends Controller {
         }
         PlatformHelper helper = UnixPlatformHelper.getInstance();
         helper.setHost(Host.findOrCreateByUserAndIp(user, ip));
-        helper.detectHost();
+        Host host = helper.detectHost();
+        if (helper.getStatus() < 128) {
+            host.save();
+        } else {
+            Logger.info("there are some errors!");
+            Application.index();
+        }
         helper.dectectDistribution();
         helper.detectPlatform();
         helper.getDistribution();
         helper.listPackages();
-        Host host = helper.getHost();
         show(host.id);
     }
 

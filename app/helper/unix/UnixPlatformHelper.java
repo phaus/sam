@@ -1,6 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * UnixPlatformHelper
+ * 29.03.2012
+ * @author Philipp Haussleiter
+ *
  */
 package helper.unix;
 
@@ -139,7 +141,8 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
                 + "dnsdomainname";
         runCommand(command, dh);
         host = dh.getHost();
-        return host.save();
+        Logger.info("Host: " + host);
+        return host;
     }
 
     public List<String> updatedPackages() {
@@ -161,7 +164,11 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
         /**
          * thx to http://linuxcommando.blogspot.com/2008/10/how-to-disable-ssh-host-key-checking.html.
          */
-        sshPrefix = " ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + host.user + "@" + host.ip;
+        sshCmdPrefix = " ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + host.user + "@" + host.ip;
+        /**
+         * thx to http://freeunixtips.com/2009/03/ssh-pw-prompt/
+         */
+        sshCheckPrefix = "ssh " + this.host.user + "@" + this.host.ip + " -qo PasswordAuthentication=no echo 0 || echo 1";
     }
 
     public Host getHost() {
