@@ -168,7 +168,7 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
         /**
          * thx to http://freeunixtips.com/2009/03/ssh-pw-prompt/
          */
-        sshCheckPrefix = "ssh " + this.host.user + "@" + this.host.ip + " -qo PasswordAuthentication=no echo 0 || echo 1";
+        sshCheckPrefix = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + this.host.user + "@" + this.host.ip + " -qo PasswordAuthentication=no echo 0 || echo 1";
     }
 
     public Host getHost() {

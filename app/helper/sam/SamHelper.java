@@ -21,8 +21,8 @@ public class SamHelper extends SystemHelper {
     private SamHelper() {
         super();
         this.host = Host.findOrCreateByUserAndIp("root", "127.0.0.1");
-        this.sshCmdPrefix = " ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + this.host.user + "@" + this.host.ip;
-        this.sshCheckPrefix = "ssh " + this.host.user + "@" + this.host.ip + " -qo PasswordAuthentication=no echo 0 || echo 1";
+        this.sshCmdPrefix =   " ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + this.host.user + "@" + this.host.ip;
+        this.sshCheckPrefix = " ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + this.host.user + "@" + this.host.ip + " -qo PasswordAuthentication=no echo 0 || echo 1";
     }
 
     public static SamHelper getInstance() {
