@@ -78,10 +78,5 @@ init (){
     fi
 }
 
-if [ $USER = "root" ]; then
-    init
-else
-    echo "Please run as root:"
-    echo "su root"
-    echo "bash setup.sh"
-fi
+init
+
