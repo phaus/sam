@@ -11,31 +11,31 @@ EXPECTED_ARGS=6
 AWK=`which awk`
 
 start(){
-	comp=`echo $DIST | $AWK '{print tolower($0)}'`
-	if [ $comp = "debian" ]; then
-		VERS=`echo $VERS | cut -d '.' -f 1`
-		VERS="${VERS}.0"
-		EXT="deb"
-		FVER="_1.00_"
-	fi
-	if [ $comp = "ubuntu" ]; then
-		EXT="deb"
-		FVER="_1.00_"
-		DIST="x${DIST}"
-	fi	
-	if [ $comp = "opensuse" ]; then
-		if [ $ARCH = "amd64" ]; then
-			ARCH="x86_64"
-		fi
-		if [ $ARCH = "i386" ]; then
-			ARCH="i586"
-		fi
-		DIST="openSUSE"
-		EXT="rpm"
-		FVER="-1.00-2.1."
-	fi
-	echo "downloading a $EXT for $DIST $VERS $ARCH"
-	download
+    comp=`echo $DIST | $AWK '{print tolower($0)}'`
+    if [ $comp = "debian" ]; then
+        VERS=`echo $VERS | cut -d '.' -f 1`
+        VERS="${VERS}.0"
+        EXT="deb"
+        FVER="_1.00_"
+    fi
+    if [ $comp = "ubuntu" ]; then
+        EXT="deb"
+        FVER="_1.00_"
+        DIST="x${DIST}"
+    fi    
+    if [ $comp = "opensuse" ]; then
+        if [ $ARCH = "amd64" ]; then
+            ARCH="x86_64"
+        fi
+        if [ $ARCH = "i386" ]; then
+            ARCH="i586"
+        fi
+        DIST="openSUSE"
+        EXT="rpm"
+        FVER="-1.00-2.1."
+    fi
+    echo "downloading a $EXT for $DIST $VERS $ARCH"
+    download
 }
 
 
@@ -46,14 +46,14 @@ start(){
 #http://download.opensuse.org/repositories/home:/ahajda:/winexe/openSUSE_11.4/i586/winexe-1.00-2.1.i586.rpm
 
 download(){
-	link="http://download.opensuse.org/repositories/home:/${USR}:/${APP}/${DIST}_$VERS/${ARCH}/${APP}${FVER}${ARCH}.${EXT}"
-	echo "downloading $link"
+    link="http://download.opensuse.org/repositories/home:/${USR}:/${APP}/${DIST}_$VERS/${ARCH}/${APP}${FVER}${ARCH}.${EXT}"
+    echo "downloading $link"
         wget $link -O ${DEST}/${APP}${FVER}${ARCH}.${EXT}
 }
 
 if [ $# -ne $EXPECTED_ARGS ]
 then
-	echo "Usage: download.build.opensuse.sh DIST VERS ARCH DEST"
-	exit 1
+    echo "Usage: download.build.opensuse.sh DIST VERS ARCH DEST"
+    exit 1
 fi
 start

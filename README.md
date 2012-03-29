@@ -1,6 +1,6 @@
 # SAM - System Administration and Management
 
-## Installation (currently only on Ubuntu/Debian Systems)
+## Installation (currently only on Ubuntu Systems)
 
 wget https://raw.github.com/phaus/sam/master/scripts/setup.sh && bash setup.sh
 
