@@ -4,13 +4,14 @@
  * @author Philipp Haussleiter
  *
  */
-package helper;
+package helper.parser;
 
+import helper.ProcessParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import play.Logger;
 
-public class BooleanParser implements ProcessParser {
+public class BooleanPP implements ProcessParser {
 
     private boolean result = true;
 

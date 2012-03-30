@@ -6,6 +6,7 @@
  */
 package helper;
 
+import helper.parser.BooleanPP;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class SystemHelper {
     }
 
     protected boolean needPassword() throws IOException {
-        BooleanParser bp = new BooleanParser();
+        BooleanPP bp = new BooleanPP();
         Logger.info("check: " + this.sshCheckPrefix);
         Process p = r.exec(this.sshCheckPrefix);
         runProcess(p, bp);
