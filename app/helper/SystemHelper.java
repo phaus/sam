@@ -28,7 +28,6 @@ public class SystemHelper {
     protected Distribution distribution = null;
     protected Runtime r;
     protected String sshCmdPrefix = "";
-    protected String sshCheckPrefix = "";
     private int status = 255;
 
     public SystemHelper() {
@@ -53,10 +52,14 @@ public class SystemHelper {
         }
     }
 
+    /**
+     * Checks if a ssh-connections needs a password.
+     * thx to http://freeunixtips.com/2009/03/ssh-pw-prompt/
+     */
     protected boolean needPassword() throws IOException {
         BooleanPP bp = new BooleanPP();
-        Logger.info("check: " + this.sshCheckPrefix);
-        Process p = r.exec(this.sshCheckPrefix);
+        Logger.info("check: " + this.sshCmdPrefix + " -qo PasswordAuthentication=no echo 0 || echo 1");
+        Process p = r.exec(this.sshCmdPrefix + " -qo PasswordAuthentication=no echo 0 || echo 1");
         runProcess(p, bp);
         return bp.getResult();
     }

@@ -165,10 +165,6 @@ public class UnixPlatformHelper extends SystemHelper implements PlatformHelper {
          * thx to http://linuxcommando.blogspot.com/2008/10/how-to-disable-ssh-host-key-checking.html.
          */
         sshCmdPrefix = " ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + host.user + "@" + host.ip;
-        /**
-         * thx to http://freeunixtips.com/2009/03/ssh-pw-prompt/
-         */
-        sshCheckPrefix = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no " + this.host.user + "@" + this.host.ip + " -qo PasswordAuthentication=no echo 0 || echo 1";
     }
 
     public Host getHost() {
