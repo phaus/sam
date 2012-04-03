@@ -41,7 +41,7 @@ sudo mkdir -p /var/log/sam
 sudo ln -s /var/log/sam $SAM_INSTALL_DIR/sam/logs
 
 echo "#!/bin/bash" > $SAM_INSTALL_DIR/sam/start-sam.sh
-echo "$PLAY start $SAM_INSTALL_DIR/sam --%prod -Xmx64M" >> $SAM_INSTALL_DIR/sam/start-sam.sh
+echo "$PLAY start $SAM_INSTALL_DIR/sam -Xmx64M" >> $SAM_INSTALL_DIR/sam/start-sam.sh
 sudo chmod +x $SAM_INSTALL_DIR/sam/start-sam.sh
 
 echo "#!/bin/bash" > $SAM_INSTALL_DIR/sam/stop-sam.sh
