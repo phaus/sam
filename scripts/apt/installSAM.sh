@@ -40,15 +40,15 @@ echo "========================================"
 sudo mkdir -p /var/log/sam
 sudo ln -s /var/log/sam $SAM_INSTALL_DIR/sam/logs
 
-echo "#!/bin/bash\n" > $SAM_INSTALL_DIR/sam/start-sam.sh
+echo "#!/bin/bash" > $SAM_INSTALL_DIR/sam/start-sam.sh
 echo "$PLAY start $SAM_INSTALL_DIR/sam --%prod -Xmx64M" >> $SAM_INSTALL_DIR/sam/start-sam.sh
 sudo chmod +x $SAM_INSTALL_DIR/sam/start-sam.sh
 
-echo "#!/bin/bash\n" > $SAM_INSTALL_DIR/sam/stop-sam.sh
+echo "#!/bin/bash" > $SAM_INSTALL_DIR/sam/stop-sam.sh
 echo "$PLAY stop $SAM_INSTALL_DIR/sam" >> $SAM_INSTALL_DIR/sam/stop-sam.sh
 sudo chmod +x $SAM_INSTALL_DIR/sam/stop-sam.sh
 
-
+sudo $PLAY secret $SAM_INSTALL_DIR/sam
 sudo bash $SAM_INSTALL_DIR/sam/start-sam.sh
 
 showIps
