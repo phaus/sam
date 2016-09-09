@@ -41,7 +41,7 @@ public class UpdatePackagePP extends SimpeOutputPP {
     // TODO this must be relocated in a separate class.
     @Override
     public List<String>getOutput(){
-        if (this.distribution.name.toLowerCase().endsWith("suse")) {
+        if (this.distribution != null && this.distribution.name.toLowerCase().endsWith("suse")) {
             return cleanSuseOutput(super.getOutput());
         }
         return super.getOutput();
