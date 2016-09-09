@@ -24,13 +24,15 @@ public class UpdatePackagePP extends SimpeOutputPP {
     }
 
     public String getCommand() {
-        if ("Arch Linux".equals(this.distribution.name)) {
-            return "pacman --sync --refresh &&  pacman -Qu";
-        }
-        if(this.distribution.name.toLowerCase().endsWith("suse")){
-            super.startToken = "Die folgenden Pakete werden aktualisiert:";
-            super.stopToken = "Die folgenden Pakete werden die Architektur ändern:";
-            return "zypper refresh && zypper --non-interactive dist-upgrade -D --auto-agree-with-licenses";
+        if(this.distribution != null) {
+            if ("Arch Linux".equals(this.distribution.name)) {
+                return "pacman --sync --refresh &&  pacman -Qu";
+            }
+            if(this.distribution.name.toLowerCase().endsWith("suse")){
+                super.startToken = "Die folgenden Pakete werden aktualisiert:";
+                super.stopToken = "Die folgenden Pakete werden die Architektur ändern:";
+                return "zypper refresh && zypper --non-interactive dist-upgrade -D --auto-agree-with-licenses";
+            }
         }
         super.startToken = "Abhängigkeitsbaum wird aufgebaut...";
         return "apt-get update && apt-get upgrade -s";
